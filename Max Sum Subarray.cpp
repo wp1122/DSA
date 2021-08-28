@@ -36,30 +36,98 @@
 // Kadane's algorithm
 
 
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// int main() {
+//  int n;
+//  cin>>n;
+//  int a[n];
+//  for(int i=0;i<n;i++){
+//      cin>>a[i];
+//  }
+ 
+//  int currSum=0;
+//  int sum=INT_MIN;
+ 
+//  for(int i=0;i<n;i++){
+//      currSum+=a[i];
+
+//here the order matters, first we calculate max of sum and curr sum, then we check if currsum <0
+// if this order is reversed it will create problems in arrays having all negative integers 
+
+//      if(currSum>sum){
+//          sum=currSum;
+//      }
+//      if(currSum<0){
+//          currSum=0;
+//      }
+//  }
+ 
+//  cout<<sum;
+ 
+// }
+
+
+//Circular subarray
+
+
 #include <bits/stdc++.h>
 using namespace std;
+
+
+int kadane(int a[],int n){
+    int currSum=0;
+    int maxSum=INT_MIN;
+    
+    for(int i=0;i<n;i++){
+        currSum+=a[i];
+        if(currSum>maxSum){
+            maxSum=currSum;
+        }
+        if(currSum<0){
+            currSum=0;
+        }
+    }
+    return maxSum;
+}
 
 int main() {
  int n;
  cin>>n;
  int a[n];
+ int b[n];
+
  for(int i=0;i<n;i++){
      cin>>a[i];
+     b[i]=-a[i];
  }
  
- int currSum=0;
- int sum=INT_MIN;
+ //Max sum = sum of all elements of array - sum of non contributing elements
+ // Sum of non contributing elements is received by applying kadane's algo
+//  in an array b which has reverse sign of elements of array a
  
- for(int i=0;i<n;i++){
-     currSum+=a[i];
-     if(currSum>sum){
-         sum=currSum;
-     }
-     if(currSum<0){
-         currSum=0;
-     }
- }
+
+ int wrapSum;
+ int nonWrapSum;
  
- cout<<sum;
+ int non_contri_element= kadane(b,n);
  
+ nonWrapSum=kadane(a,n);
+ 
+ int totalSumOfArray=0;
+  for (int i=0;i<n;i++){
+      totalSumOfArray +=a[i];
+  }
+  
+  wrapSum= totalSumOfArray + non_contri_element;
+  
+  
+  //if statement is here to take care of array having all negative numbers
+  if(nonWrapSum<0){
+      cout<<nonWrapSum;
+  }
+  else{
+  cout<<max(wrapSum,nonWrapSum);
+  }
 }
