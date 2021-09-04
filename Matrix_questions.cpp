@@ -52,7 +52,7 @@
 //     }
 // }
 
-// for(int i=0;i<num2;i++){
+// for(int i=0;i<num1;i++){
 //     for(int j=0;j<num3;j++){
 //         c[i][j]=0;
 //     }
