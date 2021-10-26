@@ -193,15 +193,84 @@
 
 //max of array using recursion
 
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// int maxArr(int a[],int n){
+//     if(n==1) return a[0];
+//     return max(maxArr(a,n-1),a[n-1]);
+// }
+
+// int main() {
+// 	int a[]= {5,4,11,13,8,6,72};
+// 	cout<<maxArr(a,7);
+// }
+
+//first index of occurence
+
+// #include <iostream>
+// using namespace std;
+
+// int firstOcc(int a[], int n, int x){
+//     if(n==0){
+//         return -1;
+//     }
+
+//     if(firstOcc(a,n-1,x)!=-1){
+//         return firstOcc(a,n-1,x);
+//     }else{
+//     if(a[n-1]==x){
+//         return n-1;
+//     }
+//     }
+//     return -1;
+
+// }
+
+// int main(){
+//     int a[]= {5,4,7,4,2,7,2,5};
+//     cout<<firstOcc(a,8,5);
+// }
+
+//first index of occurence- better approach using index
+
+#include <iostream>
 using namespace std;
 
-int maxArr(int a[],int n){
-    if(n==1) return a[0];
-    return max(maxArr(a,n-1),a[n-1]);
+int firstOcc(int a[], int n, int num){
+  if(n==0) return -1;
+  int idx2= firstOcc(a,n-1,num);
+  if(idx2!=-1){
+      return idx2;
+  }
+  if(a[n-1]==num){
+      int idx=n-1;
+      return idx;
+  }
 }
 
-int main() {
-	int a[]= {5,4,11,13,8,6,72};
-	cout<<maxArr(a,7);
+int main(){
+    int a[]= {5,4,7,4,2,7,2,5};
+    cout<<firstOcc(a,8,7);
 }
+
+// #include <iostream>
+// using namespace std;
+
+// int lastOcc(int a[], int n, int x){
+//     if(n==0) return -1;
+
+//     if(a[n-1]==x){
+//         int idx1=n-1;
+//         return idx1;
+//     }else{
+//     int idx2= lastOcc(a,n-1,x);
+//     return idx2;
+//     }
+
+// }
+
+// int main(){
+//     int a[]= {5,4,7,4,2,7,2,5};
+//     cout<<lastOcc(a,8,4);
+// }
