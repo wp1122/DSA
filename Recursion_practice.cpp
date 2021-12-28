@@ -657,3 +657,275 @@
 // 	maze(2,2,4,4,"");
 // }
 
+//Flood fill question
+
+// #include <iostream>
+// #include <string>
+// using namespace std;
+
+
+// void print(int maze[][5],int n1, int m1, int n2, int m2, string output, int visited[][5]){
+//     if(n1>n2||m1>m2||n1<0||m1<0||visited[n1][m1]==1||maze[n1][m1]==1) return;
+//     if(n1==n2&&m1==m2){
+//         cout<<output<<endl;
+//         return;
+//     }
+//     visited[n1][m1]=1;
+//     print(maze,n1-1,m1,n2,m2,output+"t",visited);
+//     print(maze,n1,m1-1,n2,m2,output+"l",visited);
+//     print(maze,n1+1,m1,n2,m2,output+"d",visited);
+//     print(maze,n1,m1+1,n2,m2,output+"r",visited);
+//     visited[n1][m1]=0;
+// }
+
+// int main()
+// {
+//     int visited[4][5];
+//      for(int i = 0; i < 4; i++)
+//     {
+//         for(int j = 0; j < 5; j++)
+//         {
+//              visited[i][j] =0; 
+//         }
+//     }
+    
+//     int maze[4][5]={
+//         {0,1,0,0,0},
+//         {0,1,0,1,0},
+//         {0,0,0,1,0},
+//         {1,1,0,0,0}
+//     };
+    
+//     print(maze,0,0,3,4,"",visited);
+// }
+
+//Find subsets of array which have sum equal to x
+// #include <iostream>
+// #include <string>
+// using namespace std;
+
+// void sumset(int a[], int n, int x, int output, string ans){
+//     if(output==x){
+//         int k = ans.size();
+//       cout<<ans.substr(0,k-1)<<endl;
+//       return;
+//     }
+//     if(n==0) return;
+    
+//     int num1 = a[n-1];
+//     sumset(a,n-1,x,output+num1, ans + to_string(num1) +",");
+//     sumset(a,n-1,x,output,ans);
+    
+// }
+
+// int main()
+// {
+//     int a[]={10,20,30,40,50};
+//     sumset(a,5,70,0,"");
+// }
+
+
+//Rat in a maze
+// #include <iostream>
+
+// using namespace std;
+// #define N 4
+
+// void rat(int maze[N][N], int x, int y, int sol[N][N]){
+//     if(x>N-1||y>N-1||maze[x][y]==0) return;
+//     if(x==N-1&&y==N-1){
+//             sol[x][y]=1;
+//         for(int i=0;i<N;i++){
+//             for(int j=0;j<N;j++){
+//                 cout<<sol[i][j]<<" ";
+//             }cout<<endl;
+//         }return;     
+//     }
+//     sol[x][y]=1;
+//     rat(maze,x+1,y,sol);
+//     rat(maze,x,y+1,sol);
+//     sol[x][y]=0;
+// }
+
+// int main()
+// {
+//    int maze[N][N] = {
+//                     { 1, 0, 1, 1 },
+//                     { 1, 1, 0, 1 },
+//                     { 0, 1, 0, 1 },
+//                     { 1, 1, 1, 1 } 
+//    };
+//     int sol[N][N]= {
+//                     { 0,0,0,0 },
+//                     { 0,0,0,0 },
+//                     { 0,0,0,0 },
+//                     { 0,0,0,0 }
+//                     };
+   
+//    rat(maze,0,0,sol);
+   
+// }
+
+
+//Permutations of array when no duplicate elements
+
+//approach-1
+#include <bits/stdc++.h>
+using namespace std;
+
+void createPerm(vector<int>&nums,vector<int>&ans,vector<int>&check,vector<vector<int>>&final){
+    if(ans.size()==nums.size()){
+        final.push_back(ans);
+        return;
+    };
+    
+    for(int i=0;i<nums.size();i++){
+        int elem=nums[i];
+        if(check[i]!=1){
+            ans.push_back(elem);
+            check[i]=1;
+            createPerm(nums,ans,check,final);
+            ans.pop_back();
+            check[i]=0;
+        }
+    }
+}
+
+vector<vector<int>>allPerms(vector<int>nums){
+    vector<int>ans;
+    vector<int>check(nums.size(),0);
+    
+    vector<vector<int>>permutations;
+    createPerm(nums,ans,check,permutations);
+    return permutations;
+}
+
+
+int main(){
+    vector<int> nums;
+    nums.push_back(1);nums.push_back(2);nums.push_back(3);
+    
+    vector<vector<int>> permutations= allPerms(nums);
+    
+    for(auto i:permutations){
+        for(auto ii:i){
+            cout<<ii<<" ";
+        }
+        cout<<endl;
+    }
+    
+    return 0;
+}
+
+//apporach-2
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void createPerm(vector<int>&nums,int idx,vector<vector<int>>&final){
+    if(idx==nums.size()){
+        final.push_back(nums);
+        return;
+    }
+    
+    for(int i=idx;i<nums.size();i++){
+        swap(nums[idx],nums[i]);
+        createPerm(nums,idx+1,final);
+        swap(nums[idx],nums[i]);
+    }
+}
+
+vector<vector<int>>allPerms(vector<int>nums){
+    vector<int>ans;
+    vector<vector<int>>permutations;
+    createPerm(nums,0,permutations);
+    return permutations;
+}
+
+
+int main(){
+    vector<int> nums;
+    nums.push_back(1);nums.push_back(2);nums.push_back(3);
+    
+    vector<vector<int>> permutations= allPerms(nums);
+    
+    for(auto i:permutations){
+        for(auto ii:i){
+            cout<<ii<<" ";
+        }
+        cout<<endl;
+    }
+    
+    return 0;
+}
+
+//Permutations of array with duplicates
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void createPerm(vector<int>&nums,int idx,vector<vector<int>>&final){
+    if(idx==nums.size()){
+        final.push_back(nums);
+        return;
+    }
+    
+    for(int i=idx;i<nums.size();i++){
+        if(i!=idx && nums[i]==nums[idx]){
+            continue;
+        }
+        swap(nums[idx],nums[i]);
+        createPerm(nums,idx+1,final);
+        swap(nums[idx],nums[i]);
+    }
+}
+
+vector<vector<int>>allPerms(vector<int>nums){
+    vector<int>ans;
+    vector<vector<int>>permutations;
+    sort(nums.begin(),nums.end());
+    createPerm(nums,0,permutations);
+    return permutations;
+}
+
+
+int main(){
+    vector<int> nums;
+    nums.push_back(1);nums.push_back(2);nums.push_back(3);
+    
+    vector<vector<int>> permutations= allPerms(nums);
+    
+    for(auto i:permutations){
+        for(auto ii:i){
+            cout<<ii<<" ";
+        }
+        cout<<endl;
+    }
+    
+    return 0;
+}
+
+#include "bits/stdc++.h"
+using namespace std;
+vector<vector<int>> permute(vector<int> nums)
+{
+    vector<vector<int>> ans;
+    sort(nums.begin(), nums.end());
+    do
+    {
+        ans.push_back(nums);
+    } while (next_permutation(nums.begin(), nums.end()));
+    return ans;
+}
+int32_t main()
+{
+    vector<vector<int>> res = permute({1, 2, 2});
+    for (auto i : res)
+    {
+        for (auto ii : i)
+        {
+            cout << ii << " ";
+        }
+        cout << endl;
+    }
+}
