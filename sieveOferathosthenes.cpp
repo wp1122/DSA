@@ -106,3 +106,53 @@ void all_primefactors(int n){
 int main() {
 all_primefactors(24);
 }
+
+class Solution
+{
+public:
+    ListNode *mergeKLists(vector<ListNode *> &lists)
+    {
+        ListNode *dummy = new ListNode(-1);
+        ListNode *ans = dummy;
+
+        int siz = lists.size();
+
+        while (1)
+        {
+            int i = 0;
+            bool notOver = false;
+            while (i < siz)
+            {
+                if (lists[i] != NULL)
+                {
+                    notOver = true;
+                    break;
+                }
+                i++;
+            }
+            if (notOver == false)
+                break;
+            int mn = INT_MAX;
+            ListNode *temp;
+            i = 0;
+            while (i < siz)
+            {
+                if (lists[i] != NULL)
+                {
+                    int value = lists[i]->val;
+                    if (value < mn)
+                    {
+                        temp = lists[i];
+                        mn = value;
+                    }
+                }
+                if (lists[i] != NULL)
+                    lists[i] = lists[i]->next;
+                i++;
+            }
+            ans->next = temp;
+            ans = ans->next;
+        }
+        return dummy->next;
+    }
+};
